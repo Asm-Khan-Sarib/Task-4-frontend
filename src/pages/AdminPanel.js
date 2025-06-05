@@ -1,10 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import UserTable from '../components/UserTable';
 import PageWrapper from '../components/PageWrapper';
 
 function AdminPanel() {
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
