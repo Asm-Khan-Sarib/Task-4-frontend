@@ -28,59 +28,53 @@ function UserTable() {
   };
 
   const handleBlock = async () => {
-    if (currentUser?.status !== 'active') {
-      alert('You are blocked and cannot perform this action.');
-      window.location.href = '/login';
-      return;
-    }
     if (selected.length === 0) return;
     try {
-      await axios.post('https://task-4-backend-83tr.onrender.com/block-users', { ids: selected });
+      await axios.post('https://task-4-backend-83tr.onrender.com/block-users', {
+        ids: selected,
+        currentUserId: currentUser?.id
+      });
       alert('Users blocked');
-      // Refresh users
       const res = await axios.get('https://task-4-backend-83tr.onrender.com/users');
       setUsers(res.data);
       setSelected([]);
     } catch (err) {
-      alert('Failed to block users');
+      alert(err.response?.data?.error || 'Failed to block users');
       console.error(err);
     }
   };
 
   const handleUnblock = async () => {
-    if (currentUser?.status !== 'active') {
-      alert('You are blocked and cannot perform this action.');
-      window.location.href = '/login';
-      return;
-    }
     if (selected.length === 0) return;
     try {
-      await axios.post('https://task-4-backend-83tr.onrender.com/unblock-users', { ids: selected });
+      await axios.post('https://task-4-backend-83tr.onrender.com/unblock-users', {
+        ids: selected,
+        currentUserId: currentUser?.id
+      });
       alert('Users unblocked');
       const res = await axios.get('https://task-4-backend-83tr.onrender.com/users');
       setUsers(res.data);
       setSelected([]);
     } catch (err) {
-      alert('Failed to unblock users');
+      alert(err.response?.data?.error || 'Failed to unblock users');
       console.error(err);
     }
   };
+
   const handleDelete = async () => {
-    if (currentUser?.status !== 'active') {
-      alert('You are blocked and cannot perform this action.');
-      window.location.href = '/login';
-      return;
-    }
     if (selected.length === 0) return;
     if (!window.confirm('Are you sure you want to delete these users?')) return;
     try {
-      await axios.post('https://task-4-backend-83tr.onrender.com/delete-users', { ids: selected });
+      await axios.post('https://task-4-backend-83tr.onrender.com/delete-users', {
+        ids: selected,
+        currentUserId: currentUser?.id
+      });
       alert('Users deleted');
       const res = await axios.get('https://task-4-backend-83tr.onrender.com/users');
       setUsers(res.data);
       setSelected([]);
     } catch (err) {
-      alert('Failed to delete users');
+      alert(err.response?.data?.error || 'Failed to delete users');
       console.error(err);
     }
   };
